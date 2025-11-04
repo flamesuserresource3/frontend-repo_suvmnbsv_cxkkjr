@@ -3,7 +3,7 @@ import { Sparkles } from 'lucide-react';
 
 export default function SubjectInput({ value, onChange, onGenerate, onSample }) {
   return (
-    <div className="w-full px-6 -mt-10 md:-mt-14">
+    <div className="w-full px-6 mt-6 md:mt-8">
       <div className="mx-auto max-w-5xl bg-slate-900/70 border border-slate-700 rounded-xl p-4 md:p-6 shadow-lg">
         <label className="block text-sm font-medium text-slate-300 mb-2">
           Describe the CS subject you want to study

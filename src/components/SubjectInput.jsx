@@ -5,7 +5,7 @@ export default function SubjectInput({ onGenerate }) {
   const [text, setText] = useState('Operating Systems, Computer Networks, Database Systems, Data Structures, Artificial Intelligence');
 
   return (
-    <section className="max-w-6xl mx-auto -mt-20 md:-mt-24 px-6">
+    <section className="max-w-6xl mx-auto px-6 mt-6 md:mt-10 relative z-20">
       <div className="bg-neutral-900 rounded-2xl shadow-xl border border-neutral-800 p-6 md:p-8">
         <div className="flex flex-col md:flex-row gap-6 items-stretch">
           <textarea

@@ -1,97 +1,152 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
+// simple local stub to "summarize" a selected topic and add curated resources
 function generateSummary(topic) {
-  const t = topic.toLowerCase();
-  if (t.includes('deadlock')) {
-    return {
-      summary:
-        'A deadlock occurs when processes hold resources while waiting for others, creating a circular wait so none can proceed. It requires mutual exclusion, hold-and-wait, no preemption, and circular wait. Avoidance uses Bankers Algorithm to ensure safe states.',
-      example: 'Example: Two processes each hold one mutex and wait to acquire the other; both block forever.',
-      related: 'Resource Allocation Graph',
-      interview: "Explain Banker's Algorithm and safe vs. unsafe states.",
-    };
-  }
-  if (t.includes('thread')) {
-    return {
-      summary:
-        'Threads are lightweight execution units within a process sharing memory and resources. They enable concurrency and can improve responsiveness on multicore systems. Synchronization mechanisms are required to protect shared data.',
-      example:
-        'Example (pseudocode): spawn 4 worker threads that process items from a shared queue guarded by a mutex.',
-      related: 'Synchronization',
-      interview: 'What issues can occur with shared-memory threads and how do you prevent race conditions?',
-    };
-  }
-  if (t.includes('normalization')) {
-    return {
-      summary:
-        'Normalization organizes database tables to reduce redundancy and improve integrity. Normal forms (1NF to BCNF) set constraints on attributes and dependencies.',
-      example: 'Example: Split a customer-order table into Customers and Orders by functional dependencies.',
-      related: 'Functional Dependencies',
-      interview: 'Differentiate 3NF and BCNF with an example.',
-    };
-  }
-  if (t.includes('queue')) {
-    return {
-      summary:
-        'A queue is a FIFO data structure supporting enqueue and dequeue. Variants like priority queues and circular queues optimize for different use cases.',
-      example: 'Example (JS): const q = []; q.push(x); const y = q.shift();',
-      related: 'Stacks',
-      interview: 'How would you implement a queue using two stacks?',
-    };
-  }
-  return {
-    summary:
-      `${topic} is a core concept in computer science. Learn the definition, key operations, common pitfalls, and where it fits within the broader system design landscape.`,
-    example: 'Example: Consider a minimal, real-world use-case and trace the data flow across components.',
-    related: 'Foundational Concepts',
-    interview: `Give a concise explanation of ${topic} and one trade-off involved.`,
+  const name = topic?.label || 'Topic';
+
+  const base = {
+    summary: `An overview of ${name}, including key definitions, core ideas, and why it matters in computer science.`,
+    example: `Example-driven walkthrough to build intuition for ${name}.`,
+    related: ["Algorithms", "Data Structures", "Complexity"],
+    interview: [
+      `Explain ${name} in your own words and a real-world example.`,
+      `What are common pitfalls or edge cases in ${name}?`,
+    ],
+    resources: [],
   };
+
+  const curated = getCuratedResources(name);
+  return { ...base, resources: curated };
+}
+
+function getCuratedResources(name) {
+  // Map topic names to hand-picked resources (videos and readable guides)
+  const lib = {
+    "Data Structures": [
+      { title: "MIT 6.006: Dynamic Arrays, Linked Lists", url: "https://www.youtube.com/watch?v=ZwZ1ZBzv7EM&list=PLUl4u3cNGP63EdVPNLG3ToM6LaEUuStEY", type: "video" },
+      { title: "OpenDSA eTextbook", url: "https://opendsa.org/", type: "guide" },
+    ],
+    "Algorithms": [
+      { title: "MIT 6.006 Intro to Algorithms (Playlist)", url: "https://www.youtube.com/playlist?list=PLUl4u3cNGP6317WaSNfmCvGym2ucw3oGp", type: "video" },
+      { title: "CLRS Companion (Notes)", url: "https://jeffe.cs.illinois.edu/teaching/algorithms/", type: "guide" },
+    ],
+    "Graphs": [
+      { title: "Graph Algorithms Crash Course", url: "https://www.youtube.com/watch?v=tWVWeAqZ0WU", type: "video" },
+      { title: "CP-Algorithms: Graph Theory", url: "https://cp-algorithms.com/graph/", type: "guide" },
+    ],
+    "Trees": [
+      { title: "Binary Trees Explained Visually", url: "https://www.youtube.com/watch?v=oSWTXtMglKE", type: "video" },
+      { title: "USF Data Structures: Trees", url: "https://www.cs.usfca.edu/~galles/visualization/Algorithms.html", type: "guide" },
+    ],
+    "Dynamic Programming": [
+      { title: "DP for Beginners (freeCodeCamp)", url: "https://www.youtube.com/watch?v=oBt53YbR9Kk", type: "video" },
+      { title: "AtCoder Educational DP", url: "https://atcoder.jp/contests/dp/tasks", type: "guide" },
+    ],
+    "Sorting": [
+      { title: "Sorting Algorithms Visually", url: "https://www.youtube.com/watch?v=kPRA0W1kECg", type: "video" },
+      { title: "Toptal Guide to Sorting Algorithms", url: "https://www.toptal.com/developers/sorting-algorithms", type: "guide" },
+    ],
+    "Hash Tables": [
+      { title: "Hash Tables (CS50)", url: "https://www.youtube.com/watch?v=shs0KM3wKv8", type: "video" },
+      { title: "MDN: Map and Set in JS", url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map", type: "guide" },
+    ],
+    "Complexity": [
+      { title: "Big-O Notation Explained", url: "https://www.youtube.com/watch?v=__vX2sjlpXU", type: "video" },
+      { title: "Big-O Cheat Sheet", url: "https://www.bigocheatsheet.com/", type: "guide" },
+    ],
+    "Operating Systems": [
+      { title: "MIT 6.828: Operating System Engineering", url: "https://pdos.csail.mit.edu/6.828/2018/", type: "guide" },
+      { title: "CS 162 UC Berkeley (Playlist)", url: "https://www.youtube.com/playlist?list=PLIMsH_z6eqVMZkDp0L_Nl0Hpm2A17y0J1", type: "video" },
+    ],
+    "Networking": [
+      { title: "Computer Networking Full Course", url: "https://www.youtube.com/watch?v=IPvYjXCsTg8", type: "video" },
+      { title: "Beej's Guide to Network Programming", url: "https://beej.us/guide/bgnet/", type: "guide" },
+    ],
+    "Databases": [
+      { title: "CMU Intro to Database Systems (15-445)", url: "https://www.youtube.com/playlist?list=PLSE8ODhjZXjbohkNBWQs_otTrBTrjyohi", type: "video" },
+      { title: "Use The Index, Luke!", url: "https://use-the-index-luke.com/", type: "guide" },
+    ],
+  };
+
+  // Fallback suggestions if the exact name isn't present
+  const keys = Object.keys(lib);
+  const exact = lib[name];
+  if (exact) return exact;
+
+  // heuristic matching
+  const lower = name.toLowerCase();
+  for (const k of keys) {
+    if (lower.includes(k.toLowerCase())) return lib[k];
+  }
+
+  return [
+    { title: `${name} – Wikipedia Overview`, url: `https://en.wikipedia.org/wiki/${encodeURIComponent(name.replaceAll(' ', '_'))}` , type: 'guide' },
+    { title: `YouTube: ${name} explained`, url: `https://www.youtube.com/results?search_query=${encodeURIComponent(name + ' explained')}` , type: 'video' },
+  ];
 }
 
 export default function TopicDetail({ topic }) {
-  const [info, setInfo] = useState(null);
+  const [detail, setDetail] = useState(null);
 
   useEffect(() => {
-    if (!topic) return setInfo(null);
-    // Simulate an AI summary locally for demo; replace with backend call later
-    const data = generateSummary(topic);
-    setInfo(data);
+    if (!topic) return;
+    setDetail(generateSummary(topic));
   }, [topic]);
 
   if (!topic) {
     return (
-      <section className="max-w-6xl mx-auto px-6">
-        <div className="bg-neutral-900 rounded-2xl shadow-xl border border-neutral-800 p-6 text-center text-neutral-400">
-          Click a node in the graph to view details here.
-        </div>
-      </section>
+      <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-5 text-slate-300">
+        Select a node to see details and curated resources.
+      </div>
     );
   }
 
   return (
-    <section className="max-w-6xl mx-auto px-6">
-      <div className="bg-neutral-900 rounded-2xl shadow-xl border border-neutral-800 p-6 md:p-7">
-        <div className="flex items-start justify-between gap-4">
+    <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-5">
+      <h3 className="text-lg font-semibold text-white">{topic.label}</h3>
+      {detail && (
+        <div className="mt-3 space-y-4 text-slate-300">
+          <p className="leading-relaxed">{detail.summary}</p>
+
           <div>
-            <h3 className="text-xl font-semibold text-neutral-100">{topic}</h3>
-            <p className="mt-3 text-neutral-200/90 leading-relaxed">{info?.summary}</p>
+            <h4 className="text-slate-200 font-semibold mb-2">Example</h4>
+            <p className="text-slate-300/90">{detail.example}</p>
+          </div>
+
+          <div>
+            <h4 className="text-slate-200 font-semibold mb-2">Related</h4>
+            <div className="flex flex-wrap gap-2">
+              {detail.related.map((r) => (
+                <span key={r} className="px-2 py-1 rounded-md bg-slate-800 text-slate-200 text-xs border border-slate-700">{r}</span>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-slate-200 font-semibold mb-2">Interview prompts</h4>
+            <ul className="list-disc pl-5 space-y-1">
+              {detail.interview.map((q, i) => (
+                <li key={i}>{q}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-slate-200 font-semibold mb-2">Curated resources</h4>
+            <ul className="space-y-2">
+              {detail.resources.map((res, i) => (
+                <li key={i} className="group flex items-start gap-3">
+                  <span className={`mt-1 inline-flex h-2.5 w-2.5 rounded-full ${res.type === 'video' ? 'bg-rose-400' : 'bg-emerald-400'}`}></span>
+                  <a href={res.url} target="_blank" rel="noreferrer" className="text-cyan-300 hover:text-cyan-200 underline decoration-dotted">
+                    {res.title}
+                  </a>
+                  <span className="ml-auto text-xs text-slate-400 uppercase tracking-wide px-2 py-0.5 rounded border border-slate-700 bg-slate-800/60">{res.type}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
-        <div className="mt-6 grid md:grid-cols-3 gap-4 md:gap-5">
-          <div className="bg-neutral-950/60 border border-neutral-800 rounded-xl p-4">
-            <h4 className="text-sm font-semibold text-neutral-200 mb-1">Example</h4>
-            <p className="text-sm text-neutral-300">{info?.example}</p>
-          </div>
-          <div className="bg-neutral-950/60 border border-neutral-800 rounded-xl p-4">
-            <h4 className="text-sm font-semibold text-neutral-200 mb-1">Related Concept</h4>
-            <p className="text-sm text-neutral-300">{info?.related}</p>
-          </div>
-          <div className="bg-neutral-950/60 border border-neutral-800 rounded-xl p-4">
-            <h4 className="text-sm font-semibold text-neutral-200 mb-1">Interview Question</h4>
-            <p className="text-sm text-neutral-300">{info?.interview}</p>
-          </div>
-        </div>
-      </div>
-    </section>
+      )}
+    </div>
   );
 }

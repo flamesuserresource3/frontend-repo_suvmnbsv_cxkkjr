@@ -71,8 +71,8 @@ export default function ConceptGraph({ data, selected, onSelect }) {
                 >
                   {n.label}
                 </text>
-              </g)
-            )}
+              </g>
+            ))}
           </svg>
         </div>
         <p className="text-xs text-neutral-400 mt-3">Tip: Click a topic node to see summaries, examples, and interview questions.</p>

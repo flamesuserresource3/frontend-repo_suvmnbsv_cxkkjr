@@ -3,7 +3,9 @@
 > vite
 
 
-  VITE v5.4.20  ready in 579 ms
+  VITE v5.4.20  ready in 370 ms
 
   ➜  Local:   http://localhost:3000/
   ➜  Network: http://172.20.19.249:3000/
+4:30:33 PM [vite] Pre-transform error: Transform failed with 1 error:
+/home/workspace/src/components/ConceptGraph.jsx:74:17: ERROR: Expected ">" but found ")"

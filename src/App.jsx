@@ -110,32 +110,32 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-neutral-950 text-neutral-100">
       <HeroSection />
       <SubjectInput onGenerate={handleGenerate} />
 
-      <div className="max-w-6xl mx-auto px-4 mt-8 grid lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
+      <div className="max-w-6xl mx-auto px-6 mt-12 grid lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 space-y-8">
           <ConceptGraph data={graph} selected={selected} onSelect={setSelected} />
         </div>
-        <div className="lg:col-span-1 space-y-6">
-          <div className="bg-white rounded-2xl shadow-xl border border-slate-200 p-6">
-            <h3 className="text-lg font-semibold text-slate-800 mb-2">Suggested Learning Path</h3>
+        <div className="lg:col-span-1 space-y-8">
+          <div className="bg-neutral-900 rounded-2xl shadow-xl border border-neutral-800 p-6 md:p-7">
+            <h3 className="text-lg font-semibold text-neutral-100 mb-3">Suggested Learning Path</h3>
             {path.length > 0 ? (
-              <ol className="list-decimal list-inside text-slate-700 space-y-1">
+              <ol className="list-decimal list-inside text-neutral-200 space-y-1.5">
                 {path.map((p) => (
                   <li key={p}>{p}</li>
                 ))}
               </ol>
             ) : (
-              <p className="text-slate-500">Enter subjects to see a recommended order.</p>
+              <p className="text-neutral-400">Enter subjects to see a recommended order.</p>
             )}
           </div>
           <TopicDetail topic={selected} />
         </div>
       </div>
 
-      <footer className="max-w-6xl mx-auto px-6 py-10 text-sm text-slate-500">
+      <footer className="max-w-6xl mx-auto px-6 py-12 text-sm text-neutral-400">
         <p>
           CS Assistant is an educational helper. For deeper explanations and quizzes, integrate with a backend AI model.
         </p>
